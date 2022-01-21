@@ -9,6 +9,7 @@ namespace McServerControler
         public Form1()
         {
             InitializeComponent();
+
         }
         private string ServerPath = "C:\\Dragon Data\\Development\\Install\\Minecraft Server\\server.jar";
         private Process ServerProcess = null;
@@ -25,7 +26,6 @@ namespace McServerControler
                 }
             };
             proc.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-            proc.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
 
             ServerProcess = proc;
 
@@ -38,25 +38,22 @@ namespace McServerControler
             ServerProcess.BeginOutputReadLine();
         }
 
-        private void ConOut(String data)
+        public void ConOut(DataReceivedEventArgs obj)
         {
-            SynchronizationContext.Current.Send(_ => {
-                ConsoleOut.AppendText(data + "\n");
-            }, null);
-            
+
+            ConsoleOut.AppendText(obj.Data + "\n");
+
+
         }
 
-         void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
 
-            //SynchronizationContext.Current.Send(_ => {
-            //    ConsoleOut.AppendText(outLine.Data + "\n");
-            //}, null);
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(ConOut), outLine);
+            else
+                ConOut(outLine);
 
-            Dispatcher dispatcherUI = Dispatcher.CreateDefault();
-            dispatcherUI.InvokeAsync(new Action(() => {
-                ConsoleOut.AppendText(outLine.Data + "\n");
-            }));
         }
     }
 }
