@@ -1,6 +1,9 @@
 using System;
+using System.Text;
+using System.IO;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Components;
+using System.Threading;
+using System.ComponentModel;
 
 namespace McServerControler
 {
@@ -9,51 +12,75 @@ namespace McServerControler
         public Form1()
         {
             InitializeComponent();
-
         }
-        private string ServerPath = "C:\\Dragon Data\\Development\\Install\\Minecraft Server\\server.jar";
-        private Process ServerProcess = null;
+
+        private Process ServerProcess;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             var proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = "cmd.exe",
-                    Arguments = "/c DIR",
-                    //Arguments = "cd \"C:\\Dragon Data\\Development\\Install\\Minecraft Server\\\"",
+                    //Arguments = "/c DIR",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
                     CreateNoWindow = true
                 }
             };
-            proc.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            int linecount = 0;
+            //proc.OutputDataReceived += OutputHandler;
+            proc.OutputDataReceived += new DataReceivedEventHandler((sender, e) => {
+                if (!string.IsNullOrEmpty(e.Data)) {
+
+                    this.Invoke((MethodInvoker)delegate {
+                        ConOut(e.Data);
+                    });
+                }
+            });
 
             ServerProcess = proc;
 
         }
-
+        private StreamWriter ServerInput;
         private void buttonstart_Click(object sender, EventArgs e)
         {
 
             ServerProcess.Start();
             ServerProcess.BeginOutputReadLine();
-        }
 
-        public void ConOut(DataReceivedEventArgs obj)
-        {
-
-            ConsoleOut.AppendText(obj.Data + "\n");
-
+            StreamWriter streamWriter = ServerProcess.StandardInput;
+            ServerInput = streamWriter;
 
         }
+        private int linecount = 0;
+        public void ConOut(String data)
+        { 
+            linecount++;
 
-        void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+            ConsoleOut.AppendText("\n[" + linecount + "]: " + data);
+
+        }
+
+        private void buttonTest_Click(object sender, EventArgs e)
         {
 
-            if (this.InvokeRequired)
-                this.Invoke(new MethodInvoker(ConOut), outLine);
-            else
-                ConOut(outLine);
+            ConOut("testing...");
 
+            ServerInput.WriteLine(ConsoleIn.Text);
+
+            //ServerProcess.WaitForExit();
+
+            ConsoleIn.Clear();
+        }
+
+        private void ConsoleIn_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Enter) {
+ //               ConOut(ConsoleIn.Text);
+                ServerInput.WriteLine(ConsoleIn.Text);
+                ConsoleIn.Clear();
+            }
         }
     }
 }

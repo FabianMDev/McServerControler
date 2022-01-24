@@ -31,6 +31,7 @@
             this.ConsoleOut = new System.Windows.Forms.RichTextBox();
             this.ConsoleIn = new System.Windows.Forms.TextBox();
             this.buttonstart = new System.Windows.Forms.Button();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ConsoleOut
@@ -47,6 +48,7 @@
             this.ConsoleIn.Name = "ConsoleIn";
             this.ConsoleIn.Size = new System.Drawing.Size(627, 23);
             this.ConsoleIn.TabIndex = 1;
+            this.ConsoleIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ConsoleIn_KeyPress);
             // 
             // buttonstart
             // 
@@ -58,11 +60,22 @@
             this.buttonstart.UseVisualStyleBackColor = true;
             this.buttonstart.Click += new System.EventHandler(this.buttonstart_Click);
             // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(849, 40);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest.TabIndex = 3;
+            this.buttonTest.Text = "Test";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(936, 571);
+            this.Controls.Add(this.buttonTest);
             this.Controls.Add(this.buttonstart);
             this.Controls.Add(this.ConsoleIn);
             this.Controls.Add(this.ConsoleOut);
@@ -79,5 +92,6 @@
         private RichTextBox ConsoleOut;
         private TextBox ConsoleIn;
         private Button buttonstart;
+        private Button buttonTest;
     }
 }
