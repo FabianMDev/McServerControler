@@ -31,57 +31,64 @@
             this.ConsoleOut = new System.Windows.Forms.RichTextBox();
             this.ConsoleIn = new System.Windows.Forms.TextBox();
             this.buttonstart = new System.Windows.Forms.Button();
-            this.buttonTest = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ConsoleOut
             // 
+            this.ConsoleOut.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConsoleOut.HideSelection = false;
             this.ConsoleOut.Location = new System.Drawing.Point(12, 12);
             this.ConsoleOut.Name = "ConsoleOut";
-            this.ConsoleOut.Size = new System.Drawing.Size(627, 495);
+            this.ConsoleOut.ReadOnly = true;
+            this.ConsoleOut.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.ConsoleOut.Size = new System.Drawing.Size(829, 518);
             this.ConsoleOut.TabIndex = 0;
             this.ConsoleOut.Text = "";
             // 
             // ConsoleIn
             // 
-            this.ConsoleIn.Location = new System.Drawing.Point(12, 513);
+            this.ConsoleIn.Location = new System.Drawing.Point(0, 548);
             this.ConsoleIn.Name = "ConsoleIn";
-            this.ConsoleIn.Size = new System.Drawing.Size(627, 23);
+            this.ConsoleIn.Size = new System.Drawing.Size(841, 23);
             this.ConsoleIn.TabIndex = 1;
             this.ConsoleIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ConsoleIn_KeyPress);
             // 
             // buttonstart
             // 
-            this.buttonstart.Location = new System.Drawing.Point(849, 11);
+            this.buttonstart.Dock = System.Windows.Forms.DockStyle.Top;
+            this.buttonstart.Location = new System.Drawing.Point(0, 0);
             this.buttonstart.Name = "buttonstart";
-            this.buttonstart.Size = new System.Drawing.Size(75, 23);
+            this.buttonstart.Size = new System.Drawing.Size(89, 23);
             this.buttonstart.TabIndex = 2;
             this.buttonstart.Text = "Start";
             this.buttonstart.UseVisualStyleBackColor = true;
             this.buttonstart.Click += new System.EventHandler(this.buttonstart_Click);
             // 
-            // buttonTest
+            // panel1
             // 
-            this.buttonTest.Location = new System.Drawing.Point(849, 40);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(75, 23);
-            this.buttonTest.TabIndex = 3;
-            this.buttonTest.Text = "Test";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            this.panel1.Controls.Add(this.buttonstart);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(847, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(89, 571);
+            this.panel1.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(936, 571);
-            this.Controls.Add(this.buttonTest);
-            this.Controls.Add(this.buttonstart);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.ConsoleIn);
             this.Controls.Add(this.ConsoleOut);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,6 +99,6 @@
         private RichTextBox ConsoleOut;
         private TextBox ConsoleIn;
         private Button buttonstart;
-        private Button buttonTest;
+        private Panel panel1;
     }
 }

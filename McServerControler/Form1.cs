@@ -25,6 +25,7 @@ namespace McServerControler
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardInput = true,
+                    RedirectStandardError = true,
                     CreateNoWindow = true
                 }
             };
@@ -34,10 +35,20 @@ namespace McServerControler
                 if (!string.IsNullOrEmpty(e.Data)) {
 
                     this.Invoke((MethodInvoker)delegate {
-                        ConOut(e.Data);
+                        ConOut("[Info]: " + e.Data);
                     });
                 }
             });
+            proc.ErrorDataReceived += new DataReceivedEventHandler((sender, e) => {
+                if (!string.IsNullOrEmpty(e.Data)) {
+
+                    this.Invoke((MethodInvoker)delegate {
+                        ConOut("[Error]: " + e.Data);
+                    });
+                }
+            });
+
+
 
             ServerProcess = proc;
 
@@ -48,6 +59,7 @@ namespace McServerControler
 
             ServerProcess.Start();
             ServerProcess.BeginOutputReadLine();
+            ServerProcess.BeginErrorReadLine();
 
             StreamWriter streamWriter = ServerProcess.StandardInput;
             ServerInput = streamWriter;
@@ -55,29 +67,17 @@ namespace McServerControler
         }
         private int linecount = 0;
         public void ConOut(String data)
-        { 
+        {
             linecount++;
 
-            ConsoleOut.AppendText("\n[" + linecount + "]: " + data);
+            ConsoleOut.AppendText("\n[" + linecount + "] " + data);
 
-        }
-
-        private void buttonTest_Click(object sender, EventArgs e)
-        {
-
-            ConOut("testing...");
-
-            ServerInput.WriteLine(ConsoleIn.Text);
-
-            //ServerProcess.WaitForExit();
-
-            ConsoleIn.Clear();
         }
 
         private void ConsoleIn_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == (char)Keys.Enter) {
- //               ConOut(ConsoleIn.Text);
+            if (e.KeyChar == (char)Keys.Enter) {
+                //               ConOut(ConsoleIn.Text);
                 ServerInput.WriteLine(ConsoleIn.Text);
                 ConsoleIn.Clear();
             }
